@@ -21,6 +21,9 @@ public class Node {
 		this.right = rlink;
 	}
 	
+	/*
+	 * Print A Tree
+	 */
 	public void printTree(Node head, int level) {
 		Node currPtr = head;
 		if(currPtr != null) {
@@ -30,6 +33,9 @@ public class Node {
 		}
 	}
 	
+	/*
+	 * Height Of A Tree
+	 */
 	public static int height(Node head) {
 		if (head == null) return -1;
 		int val1 = height(head.left);
@@ -51,6 +57,9 @@ public class Node {
 		return 1+(val2);
 	}
 	
+	/*
+	 * Top View Of A Tree
+	 */
 	public static void top_view(Node head) {
 		traverse_tree_left(head);
 		traverse_tree_right(head.right);
@@ -70,6 +79,9 @@ public class Node {
 		}
 	}
 	
+	/*
+	 * Check If Binary Tree
+	 */
 	public static boolean checkBinaryOrder(Node head,int i) {
 		boolean isBinary = false;
 		boolean isBinary1 = false;
@@ -126,6 +138,9 @@ public class Node {
 	    return isBinary;
 	}
 	
+	/*
+	 * inOrder Traversal
+	 */
 	public static void inOrder (Node head) {
 		if (head != null) {
 			inOrder(head.left);
@@ -134,6 +149,96 @@ public class Node {
 		}
 	}
 	
+	/*
+	 * Level Order Traversal
+	 */
+	public static void levelOrder(Node head) {
+		int heightOfTree = height(head);
+		for(int i=0;i<=heightOfTree;i++) {
+			printLevelOrder(head,i);
+		}
+	}
+	
+	public static void printLevelOrder(Node node, int i) {
+		if (node == null) return;
+		if (i == 0) System.out.print(node.data + " ");
+		if (i>0) {
+			printLevelOrder(node.left, i-1);
+			printLevelOrder(node.right, i-1);
+		}
+	}
+	
+	/*
+	 * Vertical Order Traversal
+	 */
+	
+	public static void findMinMaxHd(Node node, int min, int max, int hd) {
+		if (node == null) return;
+		if(hd<min) {
+			min = hd;
+		}else if(hd> max) {
+			max = hd;
+		}
+		findMinMaxHd(node.left,min,max,hd-1);
+		findMinMaxHd(node.right, min, max, hd+1);
+	}
+	
+	public static void printVerticalOrder(Node node,int lineNumber,int hd) {
+		if(node == null) return;
+		if(lineNumber == hd) System.out.print(node.data + " ");
+		printVerticalOrder(node.left, lineNumber-1, hd);
+		printVerticalOrder(node.right, lineNumber+1, hd);
+	}
+	
+	/*
+	 * Boundary Traversal
+	 */
+	void printBoundary(Node node)
+	{
+		if(node != null) System.out.print(node.data + " ");
+		printLeftParents(node.left);
+		printLeaves(node);
+		printRightParents(node.right);
+	}
+	
+	public static void printLeftParents(Node node) {
+	    if(node != null) {
+	        while(node.left != null | node.right != null) {
+	            System.out.print(node.data + " ");
+	            if(node.left != null) {
+	                node = node.left;
+	                continue;
+	            } else if(node.left == null && node.right != null) {
+	                node = node.right;
+	                continue;
+	            }
+	        }   
+	    }
+	}
+	
+	public static void printLeaves(Node node) {
+	    if(node == null) return;
+	    printLeaves(node.left);
+	    if(node.left == null && node.right == null) {
+	        System.out.print(node.data + " ");
+	    }
+	    printLeaves(node.right);
+	}
+	
+	public static void printRightParents(Node node) {
+	    if(node == null) return;
+	    else if(node.left == null && node.right == null) return;
+	    else if(node.right != null) {
+	        printRightParents(node.right);
+	    } else if(node.right == null && node.left != null) {
+	        printRightParents(node.left);
+	    }
+        System.out.print(node.data + " ");
+	}
+	
+	/*
+	 * Main Method
+	 */
 	public static void main(String args[]) {
 		Node parent = new Node(2);
 		//Node root = parent;
